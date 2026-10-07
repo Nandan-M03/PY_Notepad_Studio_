@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <style>
     :root {
-      --bg: #10131c;
-      --pn: #171b27;
+      --bg: #000000;
+      --pn: #111112;
       --ln: #262c3d;
       --tx: #e6e9f2;
       --dm: #8c94ab;
@@ -811,14 +811,14 @@
     let db, py, files = new Map(), cur = null, dirty = false, nb = [], hist = [], hi = 0, tmr;
 
     /* ---------- persistent storage (IndexedDB) ---------- */
-    const open = () => new Promise((r, j) => { const q = indexedDB.open('nandu-pi', 1); q.onupgradeneeded = () => q.result.createObjectStore('f'); q.onsuccess = () => r(q.result); q.onerror = () => j(q.error) });
+    const open = () => new Promise((r, j) => { const q = indexedDB.open('Pi', 1); q.onupgradeneeded = () => q.result.createObjectStore('f'); q.onsuccess = () => r(q.result); q.onerror = () => j(q.error) });
     const tx = (m, f) => new Promise((r, j) => { const t = db.transaction('f', m); const o = f(t.objectStore('f')); t.oncomplete = () => r(o && o.result); t.onerror = () => j(t.error) });
     const put = (p, b) => tx('readwrite', s => s.put(b, p)), del = p => tx('readwrite', s => s.delete(p));
     async function load() {
       const ks = await tx('readonly', s => s.getAllKeys()), vs = await tx('readonly', s => s.getAll());
       ks.forEach((k, i) => files.set(k, vs[i]));
       if (!files.size) {
-        const seed = { 'main.py': '# Welcome to PY Notepad\nimport math\n\nname = input_text = "Nandu"\nprint(f"Hello, {name}! pi is about {math.pi:.4f}")\n\nwith open("output/result.txt", "w") as f:\n    f.write("Hello Python")\nprint(open("output/result.txt").read())\n', 'data/input.txt': 'Files you save here stay on this device.\n', 'data/data.csv': 'id,name,score\n1,Asha,91\n2,Ravi,84\n3,Mei,97\n', 'output/': '' };
+        const seed = { 'main.py': '# Welcome to PY Notepad\nimport math\n\nname = input_text = "PI"\nprint(f"Hello, {name}! pi is about {math.pi:.4f}")\n\nwith open("output/result.txt", "w") as f:\n    f.write("Hello Python")\nprint(open("output/result.txt").read())\n', 'data/input.txt': 'Files you save here stay on this device.\n', 'data/data.csv': 'id,name,score\n1,Asha,91\n2,Ravi,84\n3,Mei,97\n', 'output/': '' };
         for (const k in seed) { const b = enc.encode(seed[k]); files.set(k, b); await put(k, b) }
       }
     }
