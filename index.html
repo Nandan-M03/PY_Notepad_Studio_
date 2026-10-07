@@ -3,94 +3,520 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>PY Notepad – Python for every device</title>
-<meta name="description" content="Write, run and save Python on your PC, phone or tablet. Free, works offline, no install of Python needed.">
+<title>PY Notepad – Python Editor &amp; Notebook</title>
+<meta name="description" content="A Progressive Web App to write, run and save Python in your browser and offline on any device.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#10131c">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <style>
-:root{--bg:#10131c;--pn:#171b27;--ln:#262c3d;--tx:#e6e9f2;--dm:#9aa2b8;--ac:#8b7bff;--rn:#ffb347;color-scheme:dark}
-:root[data-t=light]{--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#5b6277;--ac:#5a49e6;--rn:#d9780f;color-scheme:light}
-@media(prefers-color-scheme:light){:root:not([data-t=dark]){--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#5b6277;--ac:#5a49e6;--rn:#d9780f;color-scheme:light}}
+:root{--bg:#10131c;--pn:#171b27;--ln:#262c3d;--tx:#e6e9f2;--dm:#8c94ab;--ac:#8b7bff;--rn:#ffb347;--er:#ff6b7a;--ok:#5fd4a0;color-scheme:dark}
+:root[data-t=light]{--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#667;--ac:#5a49e6;--rn:#d9780f;--er:#c42b3c;--ok:#12805a;color-scheme:light}
+@media(prefers-color-scheme:light){:root:not([data-t=dark]){--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#667;--ac:#5a49e6;--rn:#d9780f;--er:#c42b3c;--ok:#12805a;color-scheme:light}}
+:root{--kw:#ff7ab2;--st:#8fe3a0;--nm:#ffb86b;--cm:#6b7490;--op:#5ad1ff;--fn:#82aaff;--bi:#c3a6ff}
+:root[data-t=light]{--kw:#c2185b;--st:#1b7f3b;--nm:#b85c00;--cm:#7a8299;--op:#0277a8;--fn:#2d4fd6;--bi:#6a3fc9}
+@media(prefers-color-scheme:light){:root:not([data-t=dark]){--kw:#c2185b;--st:#1b7f3b;--nm:#b85c00;--cm:#7a8299;--op:#0277a8;--fn:#2d4fd6;--bi:#6a3fc9}}
+.tk{color:var(--kw);font-weight:600}.ts{color:var(--st)}.tn{color:var(--nm)}.tc{color:var(--cm);font-style:italic}.to{color:var(--op)}.tf{color:var(--fn)}.tb{color:var(--bi)}
+.hw{position:relative;flex:1;min-width:0;min-height:0;display:flex}
+.hw pre{position:absolute;inset:0;margin:0;padding:12px 12px 40px;overflow:hidden;pointer-events:none;line-height:1.55;white-space:pre;tab-size:4;color:var(--tx)}
+.hw textarea{position:relative;color:transparent;caret-color:var(--tx);background:transparent}
+.hw textarea::selection{background:rgba(139,123,255,.35);color:transparent}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-a{color:inherit}
-.w{max-width:1000px;margin:0 auto;padding:0 20px}
-header{display:flex;align-items:center;gap:10px;padding:16px 0}
-.logo{width:34px;height:34px;border-radius:10px;background:var(--pn);border:1px solid var(--ln);display:grid;place-items:center;font:700 23px/1 Georgia,serif;color:var(--ac)}
-header b{font-size:18px}header nav{margin-left:auto;display:flex;gap:18px;align-items:center}
-header nav a{text-decoration:none;color:var(--dm);font-size:15px}header nav a:hover{color:var(--tx)}
-.btn{display:inline-block;padding:12px 22px;border-radius:10px;border:1px solid var(--ln);text-decoration:none;font-weight:600;background:var(--pn);min-height:46px}
-.btn.p{background:var(--rn);border-color:var(--rn);color:#1a1100}
-.btn:hover{border-color:var(--ac)}
-.btn:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.hero{padding:56px 0 40px;display:grid;gap:36px;grid-template-columns:1fr}
-h1{font-size:clamp(34px,7vw,58px);line-height:1.08;margin:0 0 16px;letter-spacing:-.02em}
-h1 em{font-style:normal;color:var(--ac)}
-.lead{color:var(--dm);font-size:18px;max-width:34em;margin:0 0 26px}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
-.small{color:var(--dm);font-size:13.5px;margin-top:12px}
-.code{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:16px 18px;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace;overflow:auto;white-space:pre}
-.k{color:#ff7ab2;font-weight:600}.s{color:#8fe3a0}.n{color:#ffb86b}.c{color:#6b7490;font-style:italic}.f{color:#82aaff}
-:root[data-t=light] .k{color:#c2185b}:root[data-t=light] .s{color:#1b7f3b}:root[data-t=light] .n{color:#b85c00}:root[data-t=light] .f{color:#2d4fd6}
-@media(prefers-color-scheme:light){:root:not([data-t=dark]) .k{color:#c2185b}:root:not([data-t=dark]) .s{color:#1b7f3b}:root:not([data-t=dark]) .n{color:#b85c00}:root:not([data-t=dark]) .f{color:#2d4fd6}}
-h2{font-size:28px;margin:0 0 20px;letter-spacing:-.01em}
-section{padding:36px 0}
-.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:18px}
-.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--dm);font-size:15px}
-ol{padding-left:20px;color:var(--dm)}ol b{color:var(--tx)}
-.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-footer{border-top:1px solid var(--ln);padding:26px 0 36px;color:var(--dm);font-size:14px}
-@media(min-width:860px){.hero{grid-template-columns:1.1fr .9fr;align-items:center}}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;overflow:hidden;
+grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"hd" "main" "nav";
+padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.skip-link{position:absolute;top:-40px;left:12px;background:var(--ac);color:#fff;padding:6px 12px;border-radius:6px;z-index:9999;font-weight:600;text-decoration:none;transition:top .15s ease}
+.skip-link:focus-visible{top:10px;outline:2px solid #fff;outline-offset:2px}
+.mono,textarea,pre,input.m{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:14px}
+button,input{font:inherit;color:inherit}
+button{background:var(--pn);border:1px solid var(--ln);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:border-color .15s ease,background-color .15s ease}
+button:hover{border-color:var(--ac)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+button.run{background:var(--rn);border-color:var(--rn);color:#1a1100;font-weight:600}
+button.g{background:none;border-color:transparent;color:var(--dm);padding:4px 8px;min-height:30px}
+button.g:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.btn-install{background:var(--pn);border:1px solid var(--ac);color:var(--ac);font-weight:600;display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px}
+.btn-install:hover{background:var(--ac);color:#fff}
+input{background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;min-width:0}
+header{grid-area:hd;display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--ln);background:var(--pn);position:relative;z-index:10}
+.logo{width:32px;height:32px;border-radius:9px;background:var(--bg);border:1px solid var(--ln);display:grid;place-items:center;font:700 22px/1 Georgia,serif;color:var(--ac);user-select:none}
+header b{font-size:17px;letter-spacing:.2px;white-space:nowrap}
+#st{margin-left:auto;font-size:12.5px;color:var(--dm);display:flex;align-items:center;white-space:nowrap}
+#st:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rn);margin-right:6px}
+#st.ok:before{background:var(--ok)}
+.header-actions{display:flex;align-items:center;gap:6px}
+nav{grid-area:nav;display:flex;border-top:1px solid var(--ln);background:var(--pn)}
+nav button{flex:1;border:0;border-radius:0;background:none;padding:10px 2px;color:var(--dm);min-height:48px}
+body[data-v=files] [data-go=files],body[data-v=editor] [data-go=editor],body[data-v=nb] [data-go=nb],body[data-v=con] [data-go=con],body[data-v=pkg] [data-go=pkg]{color:var(--ac);box-shadow:inset 0 2px 0 var(--ac)}
+.pane{display:none;grid-area:main;min-height:0;min-width:0;flex-direction:column}
+body[data-v=files] #files,body[data-v=editor] #editor,body[data-v=nb] #nb,body[data-v=con] #con,body[data-v=pkg] #pkg{display:flex}
+.bar{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--ln);flex-wrap:wrap}
+.sc{overflow:auto;flex:1;min-height:0}
+#files{background:var(--pn)}
+.row{display:flex;align-items:center;gap:4px;padding:2px 8px 2px 12px;cursor:pointer;border-radius:6px;margin:0 6px}
+.row:hover,.row.on{background:var(--bg)}
+.row .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 0}
+.row .k{color:var(--dm);width:14px;font-size:12px}
+#ed{display:flex;flex:1;min-height:0;position:relative}
+#gut{padding:12px 8px 12px 12px;text-align:right;color:var(--dm);overflow:hidden;white-space:pre;user-select:none;border-right:1px solid var(--ln);line-height:1.55;font-variant-numeric:tabular-nums}
+textarea{flex:1;border:0;background:none;resize:none;padding:12px;line-height:1.55;white-space:pre;overflow:auto;outline:none;tab-size:4;min-width:0}
+#pv{padding:14px;overflow:auto;flex:1}
+#pv img{max-width:100%}
+table{border-collapse:collapse;font-size:13px}td,th{border:1px solid var(--ln);padding:4px 8px;text-align:left}
+.dot{color:var(--rn)}
+.out{white-space:pre-wrap;word-break:break-word;margin:0}
+.e{color:var(--er)}.d{color:var(--dm)}.o{color:var(--ok)}
+.cell{margin:10px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--pn);overflow:hidden}
+.cell .hw{border-bottom:1px solid var(--ln)}.cell textarea{width:100%;min-height:64px}
+.cell .co{padding:8px 12px}.cell .co img{max-width:100%;background:#fff;border-radius:6px}
+.cb{display:flex;gap:6px;padding:6px 8px;align-items:center}
+#lg{padding:12px;overflow:auto;flex:1}
+#lg div{margin-bottom:8px}
+.ln{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--ln)}.ln input{flex:1}
+.chip{display:inline-block;margin:3px 4px 3px 0;padding:3px 10px;border:1px solid var(--ln);border-radius:99px;font-size:13px}
+#info{font-variant-numeric:tabular-nums}
+/* Modal dialog for install guidance / iOS */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);display:none;place-items:center;z-index:99999;padding:16px}
+.modal-overlay.open{display:grid}
+.modal-card{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:24px;max-width:440px;width:100%;box-shadow:0 12px 36px rgba(0,0,0,.5)}
+.modal-card h2{margin:0 0 12px;font-size:20px;text-wrap:balance}
+.modal-card p{margin:0 0 14px;color:var(--dm);font-size:14.5px;line-height:1.5}
+.modal-card ol{padding-left:20px;margin:0 0 20px;color:var(--tx);font-size:14px}
+.modal-card li{margin-bottom:8px}
+.modal-card .actions{display:flex;justify-content:flex-end;gap:8px}
+@media(min-width:900px){
+body{grid-template-columns:280px 1fr;grid-template-rows:auto auto minmax(0,1fr);grid-template-areas:"hd hd" "files nav" "files main"}
+#files{display:flex!important;grid-area:files;border-right:1px solid var(--ln)}
+nav{border-top:0;border-bottom:1px solid var(--ln)}nav [data-go=files]{display:none}
+nav button{box-shadow:none!important;border-bottom:2px solid transparent;flex:0 0 auto;padding:8px 22px;min-height:42px}
+body[data-v=editor] [data-go=editor],body[data-v=nb] [data-go=nb],body[data-v=con] [data-go=con],body[data-v=pkg] [data-go=pkg]{border-bottom-color:var(--ac)}
+body[data-v=files] #editor{display:flex}
+}
+@media(prefers-reduced-motion:reduce){
+button,.skip-link,.row{transition:none!important}
+}
 </style>
 </head>
-<body>
-<div class="w">
-<header><div class="logo">π</div><b>PY Notepad</b>
-<nav><a href="#features">Features</a><a href="#install">Install</a><a href="app/index.html">Open app</a></nav></header>
+<body data-v="editor">
+<a href="#ta" class="skip-link">Skip to editor</a>
 
-<div class="hero">
-<div>
-<h1>Python on <em>every</em> device.</h1>
-<p class="lead">Write, run and save Python on your PC, phone or tablet. No Python install, no sign-up. Your files stay on your device and it keeps working offline.</p>
-<div class="cta"><a class="btn p" href="PY-Notepad.zip" download>Download PY Notepad</a><a class="btn" href="app/index.html">Open in browser</a></div>
-<p class="small">Free · Windows, macOS, Linux, Android, iPhone, iPad · Download is a small ZIP (about 12 KB)</p>
+<header>
+  <div class="logo" aria-hidden="true">π</div>
+  <b>PY Notepad</b>
+  <span id="st" aria-live="polite">Starting…</span>
+  <div class="header-actions">
+    <button id="btn-install" class="btn-install" aria-label="Install PY Notepad progressive web app">
+      <span aria-hidden="true">⤓</span> Install App
+    </button>
+    <button class="g" id="th" title="Theme" aria-label="Toggle color theme">Theme: auto</button>
+    <a href="landing.html" class="g" style="text-decoration:none;display:inline-flex;align-items:center;padding:4px 8px;font-size:13px" title="About &amp; Guide" aria-label="About PY Notepad">About</a>
+  </div>
+</header>
+
+<nav aria-label="Primary navigation">
+  <button data-go="files">Files</button>
+  <button data-go="editor">Editor</button>
+  <button data-go="nb">Notebook</button>
+  <button data-go="con">Console</button>
+  <button data-go="pkg">Packages</button>
+</nav>
+
+<main style="display:contents">
+  <section class="pane" id="files" aria-label="File explorer">
+    <div class="bar">
+      <button id="nf" aria-label="Create new file">New file</button>
+      <button id="nd" aria-label="Create new folder">New folder</button>
+      <button id="im" aria-label="Import files into project">Import</button>
+      <button id="ex" aria-label="Export project as ZIP">Export ZIP</button>
+      <input id="fi" type="file" multiple hidden aria-label="Hidden file input">
+    </div>
+    <div class="sc" id="tree" style="padding:6px 0" role="tree" aria-label="Project files"></div>
+    <div class="d" id="info" style="padding:8px 12px;font-size:12.5px;border-top:1px solid var(--ln)" aria-live="polite"></div>
+  </section>
+
+  <section class="pane" id="editor" aria-label="Code editor">
+    <div class="bar">
+      <b id="fn" class="mono">No file open</b>
+      <span class="dot" id="dt" aria-live="polite"></span>
+      <span style="flex:1"></span>
+      <button id="pvb" hidden aria-label="Toggle CSV table view">Table</button>
+      <button class="run" id="run" aria-label="Run Python script">Run</button>
+    </div>
+    <div id="ed">
+      <div id="gut" class="mono" aria-hidden="true">1</div>
+      <textarea id="ta" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor"></textarea>
+    </div>
+    <div id="pv" hidden aria-label="File preview"></div>
+  </section>
+
+  <section class="pane" id="nb" aria-label="Interactive notebook">
+    <div class="bar">
+      <button class="run" id="ra" aria-label="Run all notebook cells">Run all</button>
+      <button id="ac" aria-label="Add code cell">+ Code</button>
+      <button id="am" aria-label="Add text cell">+ Text</button>
+      <button id="rk" aria-label="Restart Python runtime">Restart Python</button>
+    </div>
+    <div class="sc" id="cells" role="feed" aria-label="Notebook cells"></div>
+  </section>
+
+  <section class="pane" id="con" aria-label="Interactive Python console">
+    <div class="bar">
+      <b>Console</b>
+      <span class="d" id="cwd">Working directory: /home/pyodide/proj</span>
+      <span style="flex:1"></span>
+      <button id="cc" aria-label="Clear console output">Clear</button>
+    </div>
+    <div id="lg" class="mono" role="log" aria-live="polite" aria-label="Console output history"></div>
+    <div class="ln">
+      <input class="m" id="ci" placeholder=">>> type Python and press Enter…" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Python console command">
+      <button class="run" id="cr" aria-label="Run console command">Run</button>
+    </div>
+  </section>
+
+  <section class="pane" id="pkg" aria-label="Package manager">
+    <div class="bar">
+      <b>Packages</b>
+      <span class="d">Pure-Python packages from PyPI plus the Pyodide scientific stack</span>
+    </div>
+    <div class="ln" style="border-top:0">
+      <input id="pi" placeholder="Package name, e.g. numpy…" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Package name to install">
+      <button class="run" id="pb" aria-label="Install package">Install</button>
+    </div>
+    <div class="sc" style="padding:4px 12px 12px">
+      <div id="qk" aria-label="Quick install package buttons"></div>
+      <p class="d">Installed in this session</p>
+      <div id="pl" aria-label="Loaded packages list"></div>
+      <pre class="out mono d" id="plog" aria-live="polite"></pre>
+    </div>
+  </section>
+</main>
+
+<!-- Accessible Install Guide Modal (for iOS or fallback) -->
+<div id="install-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <h2 id="modal-title">Install PY Notepad</h2>
+    <p id="modal-desc">Install PY Notepad to your home screen or desktop to use it full-screen, offline, and like a native app.</p>
+    <div id="modal-instructions">
+      <ol>
+        <li>On <b>iOS Safari</b>: Tap the <b>Share</b> button <span aria-hidden="true">⎋</span> at the bottom of the screen.</li>
+        <li>Scroll down and tap <b>Add to Home Screen</b> <span aria-hidden="true">⊞</span>.</li>
+        <li>Confirm by tapping <b>Add</b>.</li>
+      </ol>
+      <p class="d" style="font-size:13px">On desktop Chrome/Edge: Look for the install icon ⤓ in the address bar if prompted.</p>
+    </div>
+    <div class="actions">
+      <button id="modal-close" class="run" type="button" aria-label="Close installation instructions">Got it</button>
+    </div>
+  </div>
 </div>
-<div class="code" aria-label="Code example"><span class="c"># Colours for keywords, strings, numbers</span>
-<span class="k">import</span> math
 
-<span class="k">def</span> <span class="f">area</span>(r):
-    <span class="k">return</span> math.pi <span class="k">*</span> r <span class="k">**</span> <span class="n">2</span>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script>
+const $=s=>document.querySelector(s),enc=new TextEncoder(),dec=new TextDecoder();
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const PROJ='/home/pyodide/proj';
+let db,py,files=new Map(),cur=null,dirty=false,nb=[],hist=[],hi=0,tmr;
 
-<span class="f">print</span>(<span class="s">f"Area: {area(3):.2f}"</span>)</div>
-</div>
+/* ---------- persistent storage (IndexedDB) ---------- */
+const open=()=>new Promise((r,j)=>{const q=indexedDB.open('nandu-pi',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)});
+const tx=(m,f)=>new Promise((r,j)=>{const t=db.transaction('f',m);const o=f(t.objectStore('f'));t.oncomplete=()=>r(o&&o.result);t.onerror=()=>j(t.error)});
+const put=(p,b)=>tx('readwrite',s=>s.put(b,p)),del=p=>tx('readwrite',s=>s.delete(p));
+async function load(){
+  const ks=await tx('readonly',s=>s.getAllKeys()),vs=await tx('readonly',s=>s.getAll());
+  ks.forEach((k,i)=>files.set(k,vs[i]));
+  if(!files.size){
+    const seed={'main.py':'# Welcome to PY Notepad\nimport math\n\nname = input_text = "Nandu"\nprint(f"Hello, {name}! pi is about {math.pi:.4f}")\n\nwith open("output/result.txt", "w") as f:\n    f.write("Hello Python")\nprint(open("output/result.txt").read())\n','data/input.txt':'Files you save here stay on this device.\n','data/data.csv':'id,name,score\n1,Asha,91\n2,Ravi,84\n3,Mei,97\n','output/':''};
+    for(const k in seed){const b=enc.encode(seed[k]);files.set(k,b);await put(k,b)}
+  }
+}
+async function save(p,b){files.set(p,b);await put(p,b)}
 
-<section id="features">
-<h2>Everything you need to code</h2>
-<div class="g">
-<div class="card"><h3>Real Python</h3><p>Runs genuine Python 3.12 in your browser, so classes, async, dataclasses and the standard library all work.</p></div>
-<div class="card"><h3>Smart editor</h3><p>Syntax colours, line numbers, auto-indent, multi-line Tab and Shift+Tab, and autosave.</p></div>
-<div class="card"><h3>Notebook</h3><p>Code and text cells with Matplotlib charts shown right under the cell.</p></div>
-<div class="card"><h3>Saved files</h3><p>Folders, CSV and image preview, SQLite databases, and ZIP import and export. Files persist after you close the app.</p></div>
-<div class="card"><h3>Packages</h3><p>Install NumPy, Pandas, SciPy, Matplotlib and more in one tap, plus pure-Python packages from PyPI.</p></div>
-<div class="card"><h3>Dark and light</h3><p>Follows your device theme, with a layout that adapts from phone to desktop.</p></div>
-</div>
-</section>
+/* ---------- file explorer ---------- */
+function tree(){
+  const ds=new Set(),all=[...files.keys()];
+  all.forEach(p=>{const a=p.split('/');for(let i=1;i<a.length;i++)ds.add(a.slice(0,i).join('/')+'/')});
+  const items=[...new Set([...ds,...all])].sort((a,b)=>a.localeCompare(b));
+  $('#tree').innerHTML=items.map(p=>{
+    const d=p.endsWith('/'),a=p.replace(/\/$/,'').split('/'),nm=a.pop();
+    return `<div class="row${p===cur?' on':''}" data-p="${esc(p)}" style="padding-left:${12+a.length*14}px" role="treeitem" aria-selected="${p===cur?'true':'false'}"><span class="k" aria-hidden="true">${d?'▸':''}</span><span class="n">${esc(nm)}${d?'/':''}</span>${d?'':'<button class="g" data-a="x" title="Export" aria-label="Export ${esc(nm)}">Save</button>'}<button class="g" data-a="r" title="Rename" aria-label="Rename ${esc(nm)}">Edit</button><button class="g" data-a="d" title="Delete" aria-label="Delete ${esc(nm)}">Del</button></div>`}).join('')||'<p class="d" style="padding:12px">No files yet. Create one or import.</p>';
+  const n=[...files.values()].reduce((s,b)=>s+b.length,0);
+  $('#info').textContent=`${[...files.keys()].filter(k=>!k.endsWith('/')).length} files · ${(n/1024).toFixed(1)} KB · saved on this device`;
+}
+$('#tree').onclick=async e=>{
+  const r=e.target.closest('.row');if(!r)return;const p=r.dataset.p,a=e.target.dataset.a;
+  if(a==='d'){if(!confirm('Delete '+p+'? This cannot be undone.'))return;
+    for(const k of [...files.keys()])if(k===p||(p.endsWith('/')&&k.startsWith(p))){files.delete(k);await del(k)}
+    if(cur&&!files.has(cur)){cur=null;show()} tree();return}
+  if(a==='r'){const n=prompt('New path',p);if(!n||n===p)return;
+    for(const k of [...files.keys()])if(k===p||(p.endsWith('/')&&k.startsWith(p))){const nk=n+k.slice(p.length);await save(nk,files.get(k));files.delete(k);await del(k);if(cur===k)cur=nk}
+    tree();show();return}
+  if(a==='x'){dl(p.split('/').pop(),files.get(p));return}
+  if(!p.endsWith('/')){await openFile(p);go('editor')}
+};
+$('#nf').onclick=async()=>{const n=prompt('File path (e.g. src/app.py)','untitled.py');if(!n)return;if(!files.has(n))await save(n,new Uint8Array());tree();openFile(n);go('editor')};
+$('#nd').onclick=async()=>{let n=prompt('Folder name','src');if(!n)return;n=n.replace(/\/?$/,'/');await save(n,new Uint8Array());tree()};
+$('#im').onclick=()=>$('#fi').click();
+$('#fi').onchange=async e=>{for(const f of e.target.files){const b=new Uint8Array(await f.arrayBuffer());
+  if(/\.zip$/i.test(f.name)&&confirm('Unpack '+f.name+' as a project? Choose Cancel to keep it as a ZIP file.')){const z=await JSZip.loadAsync(b);for(const[n,o]of Object.entries(z.files))if(!o.dir)await save(n,await o.async('uint8array'))}
+  else await save(f.name,b)}e.target.value='';tree()};
+$('#ex').onclick=async()=>{const z=new JSZip();files.forEach((b,p)=>{if(!p.endsWith('/'))z.file(p,b)});dl('py-notepad-project.zip',await z.generateAsync({type:'uint8array'}))};
+function dl(n,b){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([b]));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 
-<section id="install">
-<h2>Get started</h2>
-<div class="two">
-<div class="card"><h3>On a PC</h3><ol><li><b>Download</b> and unzip the file.</li><li>Double-click <b>index.html</b>.</li><li>Stay online the first time so Python can load.</li></ol></div>
-<div class="card"><h3>On a phone or tablet</h3><ol><li>Tap <b>Open in browser</b>.</li><li>Use <b>Add to Home Screen</b> or <b>Install app</b> from the browser menu.</li><li>After the first launch it works offline.</li></ol></div>
-</div>
-<p class="small">Files are saved in the browser of the device you use, so use Export ZIP inside the app to back up or move projects.</p>
-</section>
+/* ---------- editor ---------- */
+const ta=$('#ta');
 
-<section>
-<h2>Good to know</h2>
-<div class="card"><p>PY Notepad runs Python inside your browser. That means no debugger, Git or system terminal yet, and heavy native libraries such as PyTorch, TensorFlow or Playwright can't run. Run untrusted code with care, as with any code editor.</p></div>
-</section>
+/* ---------- syntax colours ---------- */
+const KW=new Set('False None True and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield match case'.split(' '));
+const BI=new Set('print len range int str float list dict set tuple bool open input type isinstance enumerate zip map filter sum min max abs sorted reversed super self cls any all round repr id iter next object Exception ValueError TypeError KeyError IndexError'.split(' '));
+const RX=/(#[^\n]*)|("""[\s\S]*?(?:"""|$)|'''[\s\S]*?(?:'''|$)|[rbfRBF]{0,2}"(?:\\.|[^"\\\n])*"?|[rbfRBF]{0,2}'(?:\\.|[^'\\\n])*'?)|(\b\d[\d_]*\.?\d*(?:[eE][+-]?\d+)?\b)|([A-Za-z_]\w*)|(==|!=|<=|>=|\*\*=?|\/\/=?|->|:=|[-+*\/%=<>!&|^~@]=?)/g;
+function hlt(s){
+  let o='',last=0,prev='',m;RX.lastIndex=0;
+  while((m=RX.exec(s))){
+    o+=esc(s.slice(last,m.index));last=RX.lastIndex;const t=m[0];let c;
+    if(m[1])c='tc';else if(m[2])c='ts';else if(m[3])c='tn';
+    else if(m[4]){c=KW.has(t)?'tk':prev==='def'||prev==='class'?'tf':BI.has(t)?'tb':s[last]==='('?'tf':'';prev=t}
+    else c='to';
+    o+=c?`<span class="${c}">${esc(t)}</span>`:esc(t);
+  }
+  return o+esc(s.slice(last));
+}
+function wrapHl(t){
+  const w=document.createElement('div'),p=document.createElement('pre');w.className='hw';p.className='mono';p.setAttribute('aria-hidden','true');
+  t.parentNode.insertBefore(w,t);w.append(p,t);
+  const u=()=>{p.innerHTML=hlt(t.value)+'\n';p.scrollTop=t.scrollTop;p.scrollLeft=t.scrollLeft};
+  t.addEventListener('input',u);t.addEventListener('scroll',()=>{p.scrollTop=t.scrollTop;p.scrollLeft=t.scrollLeft});t._u=u;u();
+}
+wrapHl(ta);
 
-<footer>PY Notepad · Python for every device</footer>
-</div>
+/* ---------- indentation (4 spaces) ---------- */
+function pyKeys(e,t){
+  if(e.ctrlKey||e.metaKey||e.altKey)return false;
+  const v=t.value,a=t.selectionStart,b=t.selectionEnd,ls=v.lastIndexOf('\n',a-1)+1,ins=x=>document.execCommand('insertText',false,x);
+  if(e.key==='Tab'){
+    e.preventDefault();
+    if(e.shiftKey||v.slice(a,b).includes('\n')){
+      let le=v.indexOf('\n',b>a&&v[b-1]==='\n'?b-1:b);if(le<0)le=v.length;
+      const blk=v.slice(ls,le),L=blk.split('\n'),N=L.map(l=>e.shiftKey?l.replace(/^( {1,4}|\t)/,''):'    '+l),j=N.join('\n');
+      t.setSelectionRange(ls,le);ins(j);
+      t.setSelectionRange(Math.max(ls,a+N[0].length-L[0].length),b+j.length-blk.length);
+    }else ins(' '.repeat(4-((a-ls)%4)));
+    return true;
+  }
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const l=v.slice(ls,a);let ind=l.match(/^\s*/)[0];
+    if(/[:(\[{]$/.test(l.replace(/#.*$/,'').trimEnd()))ind+='    ';
+    else if(/^\s*(return|pass|break|continue|raise)\b/.test(l)&&ind.length>=4)ind=ind.slice(0,-4);
+    ins('\n'+ind);return true;
+  }
+  if(e.key==='Backspace'&&a===b&&a>ls&&/^ +$/.test(v.slice(ls,a))){
+    e.preventDefault();const n=((a-ls)%4)||4;t.setSelectionRange(a-n,a);document.execCommand('delete');return true;
+  }
+  return false;
+}
+const isImg=p=>/\.(png|jpe?g|gif|webp|svg)$/i.test(p);
+async function openFile(p){await flush();cur=p;dirty=false;show();tree()}
+function show(){
+  const p=cur,pv=$('#pv');pv.hidden=true;$('#ed').style.display='flex';$('#pvb').hidden=true;$('#run').disabled=false;
+  $('#fn').textContent=p||'No file open';$('#dt').textContent='';
+  if(!p){ta.value='';ta.disabled=true;gut();return}
+  ta.disabled=false;const b=files.get(p);
+  if(isImg(p)){$('#ed').style.display='none';pv.hidden=false;pv.innerHTML=`<img alt="${esc(p)}" src="${URL.createObjectURL(new Blob([b],{type:p.endsWith('svg')?'image/svg+xml':'image/'+p.split('.').pop()}))}">`;$('#run').disabled=true;return}
+  let t;try{t=new TextDecoder('utf-8',{fatal:true}).decode(b)}catch{$('#ed').style.display='none';pv.hidden=false;pv.innerHTML=`<p>Binary file · ${(b.length/1024).toFixed(1)} KB. Use Python to read it, or Save it from the file list.</p>`;$('#run').disabled=true;return}
+  ta.value=t;gut();$('#pvb').hidden=!/\.csv$/i.test(p);$('#run').disabled=!/\.py$/i.test(p)&&false;
+}
+$('#pvb').onclick=()=>{const pv=$('#pv');if(!pv.hidden){pv.hidden=true;$('#ed').style.display='flex';return}
+  const rows=ta.value.split('\n').slice(0,201).filter(Boolean).map(r=>r.split(','));
+  pv.innerHTML='<table>'+rows.map((r,i)=>'<tr>'+r.map(c=>i?`<td>${esc(c)}</td>`:`<th>${esc(c)}</th>`).join('')+'</tr>').join('')+'</table>';pv.hidden=false;$('#ed').style.display='none'};
+function gut(){ta._u&&ta._u();const n=ta.value.split('\n').length;$('#gut').textContent=Array.from({length:n},(_,i)=>i+1).join('\n')}
+async function flush(){if(cur&&dirty&&!ta.disabled){await save(cur,enc.encode(ta.value));dirty=false;$('#dt').textContent=''}}
+ta.oninput=()=>{dirty=true;$('#dt').textContent='● unsaved';gut();clearTimeout(tmr);tmr=setTimeout(async()=>{await flush();$('#dt').textContent='saved';setTimeout(()=>{if(!dirty)$('#dt').textContent=''},1200);tree()},700)};
+ta.onscroll=()=>$('#gut').scrollTop=ta.scrollTop;
+ta.onkeydown=e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();$('#run').click()}
+  else if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();flush()}
+  else pyKeys(e,ta);
+};
+
+/* ---------- Python runtime ---------- */
+let ready;
+function boot(){ready=(async()=>{
+  py=await loadPyodide();
+  py.FS.mkdirTree(PROJ);py.FS.chdir(PROJ);
+  py.runPython(`
+import sys,io,base64,os
+os.environ['MPLBACKEND']='Agg'
+def _figs():
+    if 'matplotlib.pyplot' not in sys.modules: return []
+    import matplotlib.pyplot as plt
+    out=[]
+    for n in plt.get_fignums():
+        b=io.BytesIO(); plt.figure(n).savefig(b,format='png',dpi=110,bbox_inches='tight'); out.append(base64.b64encode(b.getvalue()).decode())
+    plt.close('all'); return out
+`);
+  $('#st').textContent='Python '+py.runPython('import sys;".".join(map(str,sys.version_info[:3]))')+' ready';$('#st').className='ok';
+  pk();
+})()}
+function syncIn(){files.forEach((b,p)=>{if(p.endsWith('/')){py.FS.mkdirTree(PROJ+'/'+p);return}
+  const d=p.split('/').slice(0,-1).join('/');if(d)py.FS.mkdirTree(PROJ+'/'+d);py.FS.writeFile(PROJ+'/'+p,b)})}
+async function syncOut(){
+  const seen=new Set();
+  const walk=async(d,pre)=>{for(const n of py.FS.readdir(d)){if(n==='.'||n==='..'||n==='__pycache__')continue;
+    const f=d+'/'+n,st=py.FS.stat(f);
+    if(py.FS.isDir(st.mode)){await walk(f,pre+n+'/')}
+    else{const b=py.FS.readFile(f),p=pre+n;seen.add(p);const o=files.get(p);
+      if(!o||o.length!==b.length||o.some((v,i)=>v!==b[i])){await save(p,new Uint8Array(b));if(p===cur&&!dirty)show()}}}};
+  await walk(PROJ,'');
+  for(const k of [...files.keys()])if(!k.endsWith('/')&&!seen.has(k)){files.delete(k);await del(k);if(k===cur){cur=null;show()}}
+  tree();
+}
+async function exec(code,isRun){
+  await ready;syncIn();const out=[];
+  py.setStdout({batched:s=>out.push(s)});py.setStderr({batched:s=>out.push(s)});
+  const t=performance.now();let err=null,val;
+  try{await py.loadPackagesFromImports(code);val=await py.runPythonAsync(code)}catch(e){err=e.message}
+  const imgs=py.runPython('_figs()').toJs(),ms=performance.now()-t;
+  await syncOut();pk();
+  return {out:out.join('\n'),err,imgs,val:val===undefined?null:py.globals.get('repr')(val),ms};
+}
+
+/* ---------- console ---------- */
+const lg=$('#lg');
+function note(t,c='d'){const d=document.createElement('div');d.className=c;d.textContent=t;lg.append(d);lg.scrollTop=1e9;return d}
+async function show_result(r,host){
+  const add=(t,c)=>{const p=document.createElement('pre');p.className='out mono '+c;p.textContent=t;host.append(p)};
+  if(r.out)add(r.out,'');
+  if(r.val!==null&&r.val!==undefined)add(r.val,'o');
+  r.imgs.forEach(b=>{const i=new Image();i.src='data:image/png;base64,'+b;i.alt='Plot output';i.style.cssText='max-width:100%;background:#fff;border-radius:6px';host.append(i)});
+  if(r.err){const L=r.err.trim().split('\n'),last=L[L.length-1];add(last,'e');const det=document.createElement('details');det.innerHTML='<summary class="d">Full traceback</summary>';const pp=document.createElement('pre');pp.className='out mono d';pp.textContent=r.err;det.append(pp);host.append(det);
+    const m=last.match(/NameError: name '(\w+)'/);if(m)add('Check the spelling of "'+m[1]+'" or import it first.','d')}
+  add(`${r.ms.toFixed(0)} ms`,'d');
+}
+async function consoleRun(code,isRun){const h=document.createElement('div');lg.append(h);const r=await exec(code,isRun);await show_result(r,h);lg.scrollTop=1e9}
+$('#cr').onclick=async()=>{const v=$('#ci').value;if(!v.trim())return;hist.push(v);hi=hist.length;$('#ci').value='';note('>>> '+v,'');await consoleRun(v)};
+$('#ci').onkeydown=e=>{if(e.key==='Enter')$('#cr').click();else if(e.key==='ArrowUp'&&hi>0){$('#ci').value=hist[--hi]}else if(e.key==='ArrowDown'){$('#ci').value=hi<hist.length-1?hist[++hi]:'';hi=Math.min(hi+1,hist.length)}};
+$('#cc').onclick=()=>lg.innerHTML='';
+
+/* ---------- run helper for editor goes to console ---------- */
+$('#run').onclick=async()=>{if(!cur)return;await flush();go('con');note('$ python '+cur);await consoleRun(ta.value,true)};
+
+/* ---------- notebook ---------- */
+const NB='notebook.pinb';
+function nbSave(){const b=enc.encode(JSON.stringify(nb.map(c=>({t:c.t,s:c.s}))));save(NB,b)}
+function md(s){return esc(s).replace(/^#{1,3} (.*)$/gm,'<h3 style="margin:.3em 0">$1</h3>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`(.+?)`/g,'<code>$1</code>').replace(/\n/g,'<br>')}
+function nbDraw(){
+  const root=$('#cells');root.innerHTML='';
+  nb.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='cell';
+    d.innerHTML=`<textarea class="mono" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Cell ${i+1}" placeholder="${c.t==='md'?'Write text (# heading, **bold**…)':'Write Python…'}"></textarea><div class="cb"><button class="${c.t==='code'?'run':''}" aria-label="${c.t==='code'?'Run cell':'Render markdown'}">${c.t==='code'?'Run':'Render'}</button><button class="g" data-x="u" aria-label="Move cell up">Up</button><button class="g" data-x="w" aria-label="Move cell down">Down</button><button class="g" data-x="d" aria-label="Delete cell">Delete</button><span class="d">${c.t==='md'?'Text':'Code'}</span></div><div class="co"></div>`;
+    const t=d.querySelector('textarea'),o=d.querySelector('.co');t.value=c.s;
+    if(c.t==='code')wrapHl(t);
+    const fit=()=>{t.style.height='auto';t.style.height=Math.max(64,t.scrollHeight)+'px'};
+    t.oninput=()=>{c.s=t.value;fit();nbSave()};
+    t.onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();runCell(c,o)}else pyKeys(e,t)};
+    d.querySelector('.cb button').onclick=()=>runCell(c,o);
+    d.querySelector('.cb').onclick=e=>{const x=e.target.dataset.x;if(!x)return;
+      if(x==='d')nb.splice(i,1);else if(x==='u'&&i>0)[nb[i-1],nb[i]]=[nb[i],nb[i-1]];else if(x==='w'&&i<nb.length-1)[nb[i+1],nb[i]]=[nb[i],nb[i+1]];nbSave();nbDraw()};
+    root.append(d);fit();if(c.t==='md'&&c.s)o.innerHTML=md(c.s);
+  });
+  if(!nb.length)root.innerHTML='<p class="d" style="padding:16px">Add a code or text cell to start. Press Ctrl+Enter to run a cell.</p>';
+}
+async function runCell(c,o){o.innerHTML='';if(c.t==='md'){o.innerHTML=md(c.s);return}o.textContent='Running…';const r=await exec(c.s);o.textContent='';await show_result(r,o)}
+async function nbRunAll(){const cs=document.querySelectorAll('.cell');for(let i=0;i<nb.length;i++)await runCell(nb[i],cs[i].querySelector('.co'))}
+$('#ra').onclick=nbRunAll;
+$('#ac').onclick=()=>{nb.push({t:'code',s:''});nbSave();nbDraw()};
+$('#am').onclick=()=>{nb.push({t:'md',s:''});nbSave();nbDraw()};
+$('#rk').onclick=async()=>{if(!confirm('Restart Python? Variables are cleared; your files are kept.'))return;await ready;py.runPython('for _k in [k for k in globals() if not k.startswith("_")]: del globals()[_k]');py.runPython('import sys\nfor m in [m for m in sys.modules if m.startswith("__main__")]: pass');note('Python session restarted.')};
+
+/* ---------- packages ---------- */
+const QUICK=['numpy','pandas','matplotlib','scipy','sympy','scikit-learn','pillow','requests','beautifulsoup4','pyyaml','openpyxl','networkx'];
+$('#qk').innerHTML=QUICK.map(n=>`<button class="chip" data-n="${n}" aria-label="Quick install ${n}">${n}</button>`).join('');
+$('#qk').onclick=e=>{if(e.target.dataset.n)inst(e.target.dataset.n)};
+async function inst(n){
+  n=n.trim();if(!n)return;const lgp=$('#plog');await ready;lgp.textContent='Installing '+n+'…';
+  try{await py.loadPackage('micropip');await py.pyimport('micropip').install(n);lgp.textContent='Installed '+n+'. You can import it now.'}
+  catch(e){lgp.textContent='Could not install '+n+'.\n'+e.message.split('\n').slice(-2).join('\n')+'\nPackages with native code must be built for the browser (WebAssembly).'}
+  pk();
+}
+$('#pb').onclick=()=>inst($('#pi').value);$('#pi').onkeydown=e=>{if(e.key==='Enter')$('#pb').click()};
+function pk(){if(!py)return;$('#pl').innerHTML=Object.keys(py.loadedPackages).map(n=>`<span class="chip">${esc(n)}</span>`).join('')||'<span class="d">Only the standard library so far.</span>'}
+
+/* ---------- shell & view navigation ---------- */
+function go(v){document.body.dataset.v=v;if(v==='editor'&&matchMedia('(min-width:900px)').matches===false)ta.focus&&0}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.go));
+const TH=['auto','dark','light'];let ti=TH.indexOf(localStorage.getItem('npi-t')||'auto');
+function theme(){const t=TH[ti];if(t==='auto')document.documentElement.removeAttribute('data-t');else document.documentElement.dataset.t=t;$('#th').textContent='Theme: '+t;try{localStorage.setItem('npi-t',t)}catch{}}
+$('#th').onclick=()=>{ti=(ti+1)%3;theme()};theme();
+addEventListener('beforeunload',()=>{if(dirty)flush()});
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='p'){e.preventDefault();const v=prompt('Go to: files, editor, notebook, console, packages');const m={files:'files',editor:'editor',notebook:'nb',console:'con',packages:'pkg'}[(v||'').trim().toLowerCase()];if(m)go(m)}});
+
+/* ---------- PWA installation handler ---------- */
+let deferredPrompt = null;
+const btnInstall = $('#btn-install');
+const modal = $('#install-modal');
+const modalClose = $('#modal-close');
+
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+if (isStandalone) {
+  if (btnInstall) btnInstall.style.display = 'none';
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (btnInstall) {
+    btnInstall.style.display = 'inline-flex';
+    btnInstall.setAttribute('title', 'Install PY Notepad to your device');
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  if (btnInstall) btnInstall.style.display = 'none';
+  note('PY Notepad was successfully installed.', 'o');
+});
+
+if (btnInstall) {
+  btnInstall.onclick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice.outcome === 'accepted') {
+        btnInstall.style.display = 'none';
+      }
+      deferredPrompt = null;
+    } else {
+      // Fallback modal for iOS Safari / browsers without beforeinstallprompt
+      modal.classList.add('open');
+      modalClose.focus();
+    }
+  };
+}
+
+if (modalClose) {
+  modalClose.onclick = () => modal.classList.remove('open');
+}
+modal.onclick = e => { if (e.target === modal) modal.classList.remove('open'); };
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) {
+    modal.classList.remove('open');
+    if (btnInstall) btnInstall.focus();
+  }
+});
+
+/* ---------- init ---------- */
+(async()=>{
+  db=await open();await load();
+  if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+  try{const b=files.get(NB);nb=b?JSON.parse(dec.decode(b)):[{t:'md',s:'# PY Notepad notebook\nRun the cell below.'},{t:'code',s:'import math\nprint("pi =", round(math.pi, 5))\n[x**2 for x in range(6)]'}]}catch{nb=[]}
+  tree();nbDraw();openFile('main.py');
+  if(typeof loadPyodide==='function')boot();else{$('#st').textContent='Python runtime needs internet on first launch'}
+  if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
 </body>
 </html>
