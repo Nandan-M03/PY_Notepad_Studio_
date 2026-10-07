@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PY Notepad – Python for every device</title>
+<meta name="description" content="Write, run and save Python on your PC, phone or tablet. Free, works offline, no install of Python needed.">
+<style>
+:root{--bg:#10131c;--pn:#171b27;--ln:#262c3d;--tx:#e6e9f2;--dm:#9aa2b8;--ac:#8b7bff;--rn:#ffb347;color-scheme:dark}
+:root[data-t=light]{--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#5b6277;--ac:#5a49e6;--rn:#d9780f;color-scheme:light}
+@media(prefers-color-scheme:light){:root:not([data-t=dark]){--bg:#f4f5fa;--pn:#fff;--ln:#dfe2ee;--tx:#181b27;--dm:#5b6277;--ac:#5a49e6;--rn:#d9780f;color-scheme:light}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+a{color:inherit}
+.w{max-width:1000px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;gap:10px;padding:16px 0}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--pn);border:1px solid var(--ln);display:grid;place-items:center;font:700 23px/1 Georgia,serif;color:var(--ac)}
+header b{font-size:18px}header nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+header nav a{text-decoration:none;color:var(--dm);font-size:15px}header nav a:hover{color:var(--tx)}
+.btn{display:inline-block;padding:12px 22px;border-radius:10px;border:1px solid var(--ln);text-decoration:none;font-weight:600;background:var(--pn);min-height:46px}
+.btn.p{background:var(--rn);border-color:var(--rn);color:#1a1100}
+.btn:hover{border-color:var(--ac)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.hero{padding:56px 0 40px;display:grid;gap:36px;grid-template-columns:1fr}
+h1{font-size:clamp(34px,7vw,58px);line-height:1.08;margin:0 0 16px;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--ac)}
+.lead{color:var(--dm);font-size:18px;max-width:34em;margin:0 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.small{color:var(--dm);font-size:13.5px;margin-top:12px}
+.code{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:16px 18px;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace;overflow:auto;white-space:pre}
+.k{color:#ff7ab2;font-weight:600}.s{color:#8fe3a0}.n{color:#ffb86b}.c{color:#6b7490;font-style:italic}.f{color:#82aaff}
+:root[data-t=light] .k{color:#c2185b}:root[data-t=light] .s{color:#1b7f3b}:root[data-t=light] .n{color:#b85c00}:root[data-t=light] .f{color:#2d4fd6}
+@media(prefers-color-scheme:light){:root:not([data-t=dark]) .k{color:#c2185b}:root:not([data-t=dark]) .s{color:#1b7f3b}:root:not([data-t=dark]) .n{color:#b85c00}:root:not([data-t=dark]) .f{color:#2d4fd6}}
+h2{font-size:28px;margin:0 0 20px;letter-spacing:-.01em}
+section{padding:36px 0}
+.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:18px}
+.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--dm);font-size:15px}
+ol{padding-left:20px;color:var(--dm)}ol b{color:var(--tx)}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+footer{border-top:1px solid var(--ln);padding:26px 0 36px;color:var(--dm);font-size:14px}
+@media(min-width:860px){.hero{grid-template-columns:1.1fr .9fr;align-items:center}}
+</style>
+</head>
+<body>
+<div class="w">
+<header><div class="logo">π</div><b>PY Notepad</b>
+<nav><a href="#features">Features</a><a href="#install">Install</a><a href="app/index.html">Open app</a></nav></header>
+
+<div class="hero">
+<div>
+<h1>Python on <em>every</em> device.</h1>
+<p class="lead">Write, run and save Python on your PC, phone or tablet. No Python install, no sign-up. Your files stay on your device and it keeps working offline.</p>
+<div class="cta"><a class="btn p" href="PY-Notepad.zip" download>Download PY Notepad</a><a class="btn" href="app/index.html">Open in browser</a></div>
+<p class="small">Free · Windows, macOS, Linux, Android, iPhone, iPad · Download is a small ZIP (about 12 KB)</p>
+</div>
+<div class="code" aria-label="Code example"><span class="c"># Colours for keywords, strings, numbers</span>
+<span class="k">import</span> math
+
+<span class="k">def</span> <span class="f">area</span>(r):
+    <span class="k">return</span> math.pi <span class="k">*</span> r <span class="k">**</span> <span class="n">2</span>
+
+<span class="f">print</span>(<span class="s">f"Area: {area(3):.2f}"</span>)</div>
+</div>
+
+<section id="features">
+<h2>Everything you need to code</h2>
+<div class="g">
+<div class="card"><h3>Real Python</h3><p>Runs genuine Python 3.12 in your browser, so classes, async, dataclasses and the standard library all work.</p></div>
+<div class="card"><h3>Smart editor</h3><p>Syntax colours, line numbers, auto-indent, multi-line Tab and Shift+Tab, and autosave.</p></div>
+<div class="card"><h3>Notebook</h3><p>Code and text cells with Matplotlib charts shown right under the cell.</p></div>
+<div class="card"><h3>Saved files</h3><p>Folders, CSV and image preview, SQLite databases, and ZIP import and export. Files persist after you close the app.</p></div>
+<div class="card"><h3>Packages</h3><p>Install NumPy, Pandas, SciPy, Matplotlib and more in one tap, plus pure-Python packages from PyPI.</p></div>
+<div class="card"><h3>Dark and light</h3><p>Follows your device theme, with a layout that adapts from phone to desktop.</p></div>
+</div>
+</section>
+
+<section id="install">
+<h2>Get started</h2>
+<div class="two">
+<div class="card"><h3>On a PC</h3><ol><li><b>Download</b> and unzip the file.</li><li>Double-click <b>index.html</b>.</li><li>Stay online the first time so Python can load.</li></ol></div>
+<div class="card"><h3>On a phone or tablet</h3><ol><li>Tap <b>Open in browser</b>.</li><li>Use <b>Add to Home Screen</b> or <b>Install app</b> from the browser menu.</li><li>After the first launch it works offline.</li></ol></div>
+</div>
+<p class="small">Files are saved in the browser of the device you use, so use Export ZIP inside the app to back up or move projects.</p>
+</section>
+
+<section>
+<h2>Good to know</h2>
+<div class="card"><p>PY Notepad runs Python inside your browser. That means no debugger, Git or system terminal yet, and heavy native libraries such as PyTorch, TensorFlow or Playwright can't run. Run untrusted code with care, as with any code editor.</p></div>
+</section>
+
+<footer>PY Notepad · Python for every device</footer>
+</div>
+</body>
+</html>

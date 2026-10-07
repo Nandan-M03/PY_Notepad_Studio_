@@ -1,0 +1,14 @@
+{
+  "name": "PY Notepad",
+  "short_name": "PY Notepad",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#10131c",
+  "theme_color": "#10131c",
+  "icons": [{
+    "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2310131c'/%3E%3Ctext x='50' y='72' font-size='66' text-anchor='middle' fill='%238b7bff' font-family='serif'%3E%CF%80%3C/text%3E%3C/svg%3E",
+    "sizes": "any",
+    "type": "image/svg+xml",
+    "purpose": "any"
+  }]
+}
